@@ -10,6 +10,15 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 users:action.payload,
             };
+        case userConstants.DELETE_USER:
+            const id = action.payload;
+            const stateUser = state.users;
+
+            return {
+                ...state,
+                users: stateUser,
+            };
+
         default:
             return state;
     }

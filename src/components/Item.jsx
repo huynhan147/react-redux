@@ -1,6 +1,11 @@
 import React from "react";
+import {bindActionCreators, compose} from "redux";
+import * as UserAction from "../actions/user";
+import {connect} from "react-redux";
 
-function Item({userItem}) {
+function Item({userItem, userActionCreators}) {
+    const { deleteUser } = userActionCreators;
+
     return(
         <tr>
             <th scope="row">{userItem.id}</th>
@@ -10,10 +15,17 @@ function Item({userItem}) {
             <td>{userItem.name}</td>
             <td>{userItem.createdAt}</td>
             <td>
-                <button className="btn btn-danger">Delete</button>
+                <button className="btn btn-danger" onClick={() => deleteUser(userItem.id)}>Delete</button>
                 <button className="btn btn-success">Edit</button>
             </td>
         </tr>
     );
 }
-export default Item;
+
+const mapDispatchToProps = (dispatch) => ({
+    userActionCreators: bindActionCreators(UserAction, dispatch),
+});
+
+const withConnect = connect(null, mapDispatchToProps);
+
+export default compose(withConnect)(Item);
